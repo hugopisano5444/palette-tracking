@@ -5,7 +5,7 @@ const Palette = require('../models/Palette');
 // Get all palettes
 router.get('/', async (req, res) => {
   try {
-    const palettes = await Palette.find();
+    const palettes = await Palette.find().toArray();
     res.json(palettes);
   } catch (err) {
     res.status(500).json({ message: err.message });
