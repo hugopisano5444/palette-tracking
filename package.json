@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prepare": "husky install",
     "test": "mocha --timeout 5000"
   },
   "keywords": [],
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.7",
+    "husky": "^9.1.1",
     "mocha": "^10.2.0",
     "supertest": "^6.3.3"
   }
