@@ -3,15 +3,12 @@ const request = require('supertest');
 const express = require('express');
 const mongoose = require('mongoose');
 const { expect } = require('chai');
-const Palette = require('../models/Palette');
 const Employee = require('../models/Employee');
-const palettesRouter = require('../routes/palettes');
 const employeesRouter = require('../routes/employees');
 const { connectDB, closeDB } = require('./dbTestConfig');
 
 const app = express();
 app.use(express.json());
-app.use('/palettes', palettesRouter);
 app.use('/employees', employeesRouter);
 
 // Connect to the test database
@@ -22,45 +19,35 @@ before(async function () {
 
 // Clear the database before each test
 beforeEach(async () => {
-  await Palette.deleteMany({});
   await Employee.deleteMany({});
 });
 
-// Tests for the Palette routes
-describe('GET /palettes', () => {
-  it('should get all palettes', (done) => {
+// Tests for the Employee routes
+describe('GET /employees', () => {
+  it('should get all employees', (done) => {
     request(app)
-      .get('/palettes')
+      .get('/employees')
       .expect('Content-Type', /json/)
       .expect(200, done);
   });
 });
 
-describe('POST /palettes', () => {
-  it('should create a new palette', async () => {
-    const employee = new Employee({ name: 'John Doe', post: 1 });
-    await employee.save();
-
-    const paletteData = {
-      woodType: 'chene',
-      size: '33xl',
-      count: 10,
-      employee: employee._id,
-    };
-
-    await request(app)
-      .post('/palettes')
-      .send(paletteData)
+describe('POST /employees', () => {
+  it('should create a new employee', (done) => {
+    const employeeData = { name: 'John Doe', post: 1 };
+    request(app)
+      .post('/employees')
+      .send(employeeData)
       .expect('Content-Type', /json/)
       .expect(201)
       .then((response) => {
         const { body } = response;
         expect(body).to.have.property('_id');
-        expect(body.woodType).to.equal('chene');
-        expect(body.size).to.equal('33xl');
-        expect(body.count).to.equal(10);
-        expect(body.employee).to.equal(employee._id.toString());
-      });
+        expect(body.name).to.equal('John Doe');
+        expect(body.post).to.equal(1);
+        done();
+      })
+      .catch(done);
   });
 });
 

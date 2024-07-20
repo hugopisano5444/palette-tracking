@@ -1,15 +1,26 @@
 const mongoose = require('mongoose');
 
 const paletteSchema = new mongoose.Schema({
-  employee: {
+  woodType: {
     type: String,
-    required: true
+    required: true,
+    enum: ['chene', 'hetre', 'sapin']
+  },
+  size: {
+    type: String,
+    required: true,
+    enum: ['33xl', '44xl']
   },
   count: {
     type: Number,
     required: true
   },
-  date: {
+  employee: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Employee',
+    required: true
+  },
+  productionDate: {
     type: Date,
     default: Date.now
   }

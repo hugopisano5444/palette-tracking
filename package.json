@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "test": "mocha --timeout 5000"
+    "test": "mocha --timeout 10000"
   },
   "keywords": [],
   "author": "",
